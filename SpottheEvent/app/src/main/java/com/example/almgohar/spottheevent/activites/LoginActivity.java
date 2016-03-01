@@ -101,6 +101,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button orgLogInRedirect = (Button) findViewById(R.id.org_sign_in_button);
+        orgLogInRedirect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(self, OrgLoginActivity.class);
+                startActivity(i);
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
