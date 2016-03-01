@@ -1,7 +1,9 @@
-package com.example.almgohar.spottheevent;
+package com.example.almgohar.spottheevent.activites;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.almgohar.spottheevent.R;
 
 public class OrganizationActivity extends AppCompatActivity {
 

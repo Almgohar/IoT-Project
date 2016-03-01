@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".com.example.almgohar.spottheevent.fragments.FeedEntryFragment">
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/ayb"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/title_placeholder"
+        android:id="@+id/textView3"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"
+        android:layout_toEndOf="@+id/imageView2"
+        android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales nunc libero. "
+        android:id="@+id/textView4"
+        android:maxLines="2"
+        android:layout_alignLeft="@id/textView3"
+        android:layout_below="@+id/textView3" />
+
+</RelativeLayout>

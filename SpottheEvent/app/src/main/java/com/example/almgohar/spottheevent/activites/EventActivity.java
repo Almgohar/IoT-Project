@@ -1,9 +1,11 @@
-package com.example.almgohar.spottheevent;
+package com.example.almgohar.spottheevent.activites;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Event extends AppCompatActivity {
+import com.example.almgohar.spottheevent.R;
+
+public class EventActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

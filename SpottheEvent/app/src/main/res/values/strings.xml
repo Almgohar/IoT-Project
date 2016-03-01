@@ -13,6 +13,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_placeholder">Lorem Ipsum</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sodales nunc libero. Integer varius molestie felis, a porta mauris porttitor nec. Aliquam et augue tellus. Cras pretium erat a viverra commodo. Donec id tristique erat. Duis libero turpis, volutpat vel ultrices quis, tristique quis massa. Sed sit amet nisi augue. Praesent vitae sodales dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Integer pretium pellentesque felis, sodales eleifend leo imperdiet nec. Vivamus dictum urna ac nisi lobortis pulvinar. Cras at vulputate lorem. Ut lectus diam, ultrices id nisi id, auctor porttitor velit. Curabitur eu mi nec tellus porta consectetur.</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.almgohar.spottheevent.OrganizationActivity">
+    tools:context=".com.example.almgohar.spottheevent.activites.OrganizationActivity">
 
     <ImageView
         android:layout_width="250dp"
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="lalalala lalalala fafafa laldal a ladlalf alalaf a lafafsle af wgdja ja ag"
+        android:text="@string/lorem"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
         android:layout_alignParentStart="true" />

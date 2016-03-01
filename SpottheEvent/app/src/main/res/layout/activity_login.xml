@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.almgohar.spottheevent.LoginActivity">
+    tools:context=".com.example.almgohar.spottheevent.activites.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -74,14 +74,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Login"
-                    android:id="@+id/button2"
+                    android:id="@+id/email_sign_in_button"
                     android:layout_weight="0.52" />
 
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Register"
-                    android:id="@+id/button3"
+                    android:id="@+id/register_redirect"
                     android:layout_weight="0.57" />
             </LinearLayout>
         </LinearLayout>
