@@ -22,6 +22,51 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String username;
+    private String password;
+    private String major;
+    private Integer gradYear;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public Integer getGradYear() {
+        return gradYear;
+    }
+
+    public void setGradYear(Integer gradYear) {
+        this.gradYear = gradYear;
+    }
+
+    public Integer getCurrentSemester() {
+        return currentSemester;
+    }
+
+    public void setCurrentSemester(Integer currentSemester) {
+        this.currentSemester = currentSemester;
+    }
+    private Integer currentSemester;
 
     public Long getId() {
         return id;
