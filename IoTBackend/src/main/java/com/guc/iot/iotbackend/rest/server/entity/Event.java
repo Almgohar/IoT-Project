@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.guc.iot.iotbackend.rest.server;
+package com.guc.iot.iotbackend.rest.server.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,15 +23,7 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String organization;
-
-    public String getOrganization() {
-        return organization;
-    }
-//    @TODO: Change String type for organization to Organization;
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
+    private Long organization;
     private String name;
     private String description;
     private String location;
@@ -43,10 +35,10 @@ public class Event implements Serializable {
     public Event() {
     }
     
-    public Event(Long id, String organizationName, String name, String description, String location, Date creationDate, Date expirationDate, Boolean hasBooth,
+    public Event(Long id, Long organization, String name, String description, String location, Date creationDate, Date expirationDate, Boolean hasBooth,
             String imgURL) {
         this.id = id;
-        this.organization = organizationName;
+        this.organization = organization;
         this.name = name;
         this.description = description;
         this.location = location;
@@ -54,6 +46,14 @@ public class Event implements Serializable {
         this.expirationDate = expirationDate;
         this.hasBooth = hasBooth;
         this.imgURL = imgURL;
+    }
+    
+    public Long getOrganization() {
+        return organization;
+    }
+//    @TODO: Change String type for organization to Organization;
+    public void setOrganization(Long organization) {
+        this.organization = organization;
     }
 
     public String getName() {

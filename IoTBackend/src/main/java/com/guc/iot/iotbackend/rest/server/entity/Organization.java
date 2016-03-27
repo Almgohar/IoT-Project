@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.guc.iot.iotbackend.rest.server;
+package com.guc.iot.iotbackend.rest.server.entity;
 
+import com.guc.iot.iotbackend.rest.server.entity.Event;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
