@@ -6,6 +6,7 @@
 package com.guc.iot.iotbackend.rest.server;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +27,37 @@ public class Organization implements Serializable {
     private String email;
     private String password;
     private String imgURL;
+    private String description;
+    private List<Event> events;
+    
+    public Organization(){
+    }
+    
+    public Organization(Long id, String name, String email, String password, String imgURL, String description, List<Event> events) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.imgURL = imgURL;
+        this.description = description;
+        this.events = events;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
 
     public String getName() {
         return name;
