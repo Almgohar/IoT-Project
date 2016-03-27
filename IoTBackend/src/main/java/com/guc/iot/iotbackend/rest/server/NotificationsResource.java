@@ -5,6 +5,7 @@
  */
 package com.guc.iot.iotbackend.rest.server;
 
+import com.guc.iot.iotbackend.rest.server.entity.Notification;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;

@@ -5,6 +5,8 @@
  */
 package com.guc.iot.iotbackend.rest.server;
 
+import com.guc.iot.iotbackend.rest.server.entity.Organization;
+import com.guc.iot.iotbackend.rest.server.entity.Event;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,10 +31,10 @@ public class OrganizationsResource {
     public OrganizationsResource() {
         organizations = new ArrayList<Organization>();
         events = new ArrayList<Event>();
-        Event e2 = new Event(2L, "SomeOrgName" ,"EventTwo", "Description For EventTwo", "GUC", new Date(), new Date(), false, "someImageURL");
-        Event e3 = new Event(2L, "SomeOrgName" ,"EventTwo", "Description For EventTwo", "GUC", new Date(), new Date(), false, "someImageURL");
-        events.add(e2);
-        events.add(e3);
+//        Event e2 = new Event(2L, "SomeOrgName" ,"EventTwo", "Description For EventTwo", "GUC", new Date(), new Date(), false, "someImageURL");
+//        Event e3 = new Event(2L, "SomeOrgName" ,"EventTwo", "Description For EventTwo", "GUC", new Date(), new Date(), false, "someImageURL");
+//        events.add(e2);
+//        events.add(e3);
         Organization o1 = new Organization(1L, "AYB GUC", "ayb@guc.com", "somePassword", "someImgUrl", "someDescription",events);
         Organization o2 = new Organization(2L, "AYB GUC2", "ayb2@guc.com", "somePassword2", "someImgUrl2", "someDescriptio2n",events);
         organizations.add(o1);
