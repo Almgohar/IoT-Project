@@ -33,5 +33,6 @@ public class ApplicationConfig extends Application {
   private void addRestResourceClasses(Set<Class<?>> resources) {
     resources.add(com.guc.iot.iotbackend.rest.server.EventsResource.class);
     resources.add(com.guc.iot.iotbackend.rest.server.OrganizationsResource.class);
+    resources.add(com.guc.iot.iotbackend.rest.server.NotificationsResource.class);
   }
 }
