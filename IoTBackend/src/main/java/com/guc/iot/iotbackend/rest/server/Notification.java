@@ -22,6 +22,23 @@ public class Notification implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String body;
+    
+    public Notification() {
+    }
+    
+    public Notification(Long id, String body) {
+        this.id = id;
+        this.body = body;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 
     public Long getId() {
         return id;
