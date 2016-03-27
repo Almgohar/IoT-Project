@@ -23,6 +23,15 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String organization;
+
+    public String getOrganization() {
+        return organization;
+    }
+//    @TODO: Change String type for organization to Organization;
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
     private String name;
     private String description;
     private String location;
@@ -30,6 +39,22 @@ public class Event implements Serializable {
     private Date expirationDate;
     private Boolean hasBooth;
     private String imgURL;
+    
+    public Event() {
+    }
+    
+    public Event(Long id, String organizationName, String name, String description, String location, Date creationDate, Date expirationDate, Boolean hasBooth,
+            String imgURL) {
+        this.id = id;
+        this.organization = organizationName;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
+        this.hasBooth = hasBooth;
+        this.imgURL = imgURL;
+    }
 
     public String getName() {
         return name;
