@@ -32,6 +32,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activites.OrganizationActivity" />
         <activity android:name=".activites.EventActivity" />
+        <activity android:name=".activites.OrgLoginActivity" />
+
     </application>
 
 </manifest>
