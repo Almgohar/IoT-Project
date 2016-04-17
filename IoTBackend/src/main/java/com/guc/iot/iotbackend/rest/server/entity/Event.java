@@ -11,12 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author eslam
  */
 @Entity
+@Table(name = "EVENT")
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,18 +37,18 @@ public class Event implements Serializable {
     public Event() {
     }
     
-    public Event(Long id, Long organization, String name, String description, String location, Date creationDate, Date expirationDate, Boolean hasBooth,
-            String imgURL) {
-        this.id = id;
-        this.organization = organization;
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.creationDate = creationDate;
-        this.expirationDate = expirationDate;
-        this.hasBooth = hasBooth;
-        this.imgURL = imgURL;
-    }
+//    public Event(Long id, Long organization, String name, String description, String location, Date creationDate, Date expirationDate, Boolean hasBooth,
+//            String imgURL) {
+//        this.id = id;
+//        this.organization = organization;
+//        this.name = name;
+//        this.description = description;
+//        this.location = location;
+//        this.creationDate = creationDate;
+//        this.expirationDate = expirationDate;
+//        this.hasBooth = hasBooth;
+//        this.imgURL = imgURL;
+//    }
     
     public Long getOrganization() {
         return organization;

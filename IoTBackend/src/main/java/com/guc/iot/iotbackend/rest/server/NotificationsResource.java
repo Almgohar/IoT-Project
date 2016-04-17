@@ -6,6 +6,12 @@
 package com.guc.iot.iotbackend.rest.server;
 
 import com.guc.iot.iotbackend.rest.server.entity.Notification;
+import com.guc.iot.iotbackend.rest.server.entity.Organization;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -25,27 +31,106 @@ import javax.ws.rs.Produces;
 public class NotificationsResource {
     
     private List<Notification> notifications;
+    private Connection connect = null;
+    private Statement statement = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
     
     public NotificationsResource() {
-        notifications = new ArrayList<Notification>();
-        Notification n1 = new Notification(1L, "Hopa de awl notification");
-        Notification n2 = new Notification(2L, "Hopa de l tania, TANIA!");
-        notifications.add(n1);
-        notifications.add(n2);
+//        notifications = new ArrayList<Notification>();
+//        Notification n1 = new Notification(1L, "Hopa de awl notification");
+//        Notification n2 = new Notification(2L, "Hopa de l tania, TANIA!");
+//        notifications.add(n1);
+//        notifications.add(n2);
     }
+    
     
     
     @GET
     @Produces("application/json")
-    public JsonArray getNotificationList() {
-        JsonArrayBuilder jab = Json.createArrayBuilder();
-        for(Notification note: notifications) {
-            jab.add(Json.createObjectBuilder()
-                    .add("id", note.getId())
-                    .add("body", note.getBody())
-                   
-            );
+    public JsonArray getNotificationList() throws Exception {
+//        JsonArrayBuilder jab = Json.createArrayBuilder();
+//        for(Notification note: notifications) {
+//            jab.add(Json.createObjectBuilder()
+//                    .add("id", note.getId())
+//                    .add("body", note.getBody())
+//                   
+//            );
+//        }
+//        return jab.build();
+//    }
+
+    try {
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // Setup the connection with the DB
+            // TODO: put the username and password in a seperate file ignored on git
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://localhost/iotproject?"
+                            + "user=root&password=toor");
+            // Statements allow to issue SQL queries to the database
+            statement = connect.createStatement();
+            String select_query = "select * from iotproject.NOTIFICATION";
+            // Result set get the result of the SQL query
+            resultSet = statement
+                    .executeQuery(select_query);
+            
+            notifications = new ArrayList<Notification>();
+            
+            while(resultSet.next()) {
+                Notification tmp = new Notification();
+                tmp.setId(resultSet.getLong("id"));
+                
+                if (resultSet.getString("body") != null) {
+                    tmp.setBody(resultSet.getString("body"));
+                } else {
+                    tmp.setBody("empty-body");
+                }
+                
+                
+                notifications.add(tmp);
+                
+            }
+            
+            JsonArrayBuilder jab = Json.createArrayBuilder();
+            for(Notification notification : notifications) {
+                jab.add(Json.createObjectBuilder()
+                        .add("id", notification.getId())
+                        .add("name", notification.getBody())
+                        
+                );
+            }
+            
+            return jab.build();
+            
         }
-        return jab.build();
+        catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+    
+ 
+    }
+    
+    /**
+     * helper method to close all DB connections
+     */
+    private void close() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connect != null) {
+                connect.close();
+            }
+        } catch (Exception e) {
+
+        }
     }
 }
