@@ -61,13 +61,6 @@ public class FeedEntryFragment extends Fragment {
             eventDescription = getArguments().getString("eventDescription");
             eventName = getArguments().getString("eventName");
         }
-        thisView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), EventActivity.class);
-                startActivity(i);
-            }
-        });
 
     }
 
@@ -76,6 +69,13 @@ public class FeedEntryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         thisView = inflater.inflate(R.layout.fragment_feed_entry, container, false);
+        thisView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), EventActivity.class);
+                startActivity(i);
+            }
+        });
         return thisView;
     }
 
