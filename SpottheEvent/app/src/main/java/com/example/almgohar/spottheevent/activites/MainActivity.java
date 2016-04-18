@@ -2,7 +2,11 @@ package com.example.almgohar.spottheevent.activites;
 
 import android.app.NotificationManager;
 
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.app.usage.UsageEvents;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -19,10 +23,13 @@ import com.example.almgohar.spottheevent.R;
 import com.example.almgohar.spottheevent.fragments.FeedEntryFragment;
 import com.example.almgohar.spottheevent.fragments.NotificationEntryFragment;
 
+import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.Identifier;
 import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
@@ -30,12 +37,13 @@ import org.altbeacon.beacon.startup.RegionBootstrap;
 import org.json.JSONArray;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements BeaconConsumer, FeedEntryFragment.OnFragmentInteractionListener, NotificationEntryFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements  BeaconConsumer, FeedEntryFragment.OnFragmentInteractionListener, NotificationEntryFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "BeaconReferenceApp";
     private BeaconManager beaconManager;
@@ -58,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, F
         setSupportActionBar(toolbar);
         viewEntries(10);
         beaconManager.bind(this);
-
             Thread thread = new Thread(new Runnable()
             {
                 @Override
@@ -66,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, F
                 {
                     try
                     {
-                        Log.d("llalaal", fetchEvents("http://polls.apiblueprint.org/events"));
+                        Log.d("llalaal", fetchEvents("http://private-2ef29-semanticiot.apiary-mock.com/events"));
                     }
                     catch (Exception e)
                     {
@@ -95,6 +102,22 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, F
     }
     @Override
     public void onBeaconServiceConnect() {
+        try{
+            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null,null));
+            //beaconManager.startRangingBeaconsInRegion(new Region());
+        }catch(RemoteException e){}
+
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    Log.i("Distance ", beacons.iterator().next().getDistance() + " meters away.");
+                    Log.i("Major ", beacons.iterator().next().getId2() + " ");
+                    Log.i("Minor ", beacons.iterator().next().getId3() + " ");
+                    sendNotification();
+                }
+            }
+        });
         beaconManager.setMonitorNotifier(new MonitorNotifier() {
             @Override
             public void didEnterRegion(Region region) {
@@ -112,12 +135,15 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, F
             }
         });
 
-        try {
+
+        /*try {
             beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
         }
-        catch (RemoteException e) {    }
+        catch (RemoteException e) {    }*/
     }
+    void logUUID () {
 
+    }
     public void viewEntries(int length) {
         LinearLayout entriesArea = ((LinearLayout) findViewById(R.id.entries_layout));
         final ScrollView scrollView = ((ScrollView) findViewById(R.id.entries_scroll));
@@ -182,5 +208,27 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer, F
     public void onFragmentInteraction(Uri uri) {
 
     }
+    private void sendNotification() {
+        Log.d(TAG, "sending notification");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setContentTitle("Booth Nearby").setContentText("7amda").setSmallIcon(R.drawable.ayb);
 
-}
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntent(new Intent(this, EventActivity.class));
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            builder.setContentIntent(resultPendingIntent);
+            NotificationManager notificationManager =
+                    (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        builder.build();
+            notificationManager.notify(1, builder.build());
+
+        }
+
+
+
+    }
+
