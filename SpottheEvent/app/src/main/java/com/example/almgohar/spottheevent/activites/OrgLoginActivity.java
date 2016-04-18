@@ -86,7 +86,7 @@ public class OrgLoginActivity extends Activity implements LoaderCallbacks<Cursor
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.org_log_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +94,7 @@ public class OrgLoginActivity extends Activity implements LoaderCallbacks<Cursor
             }
         });
 
-        Button registerRedicrt = (Button) findViewById(R.id.register_redirect);
+        Button registerRedicrt = (Button) findViewById(R.id.org_register_redirect);
         registerRedicrt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +104,7 @@ public class OrgLoginActivity extends Activity implements LoaderCallbacks<Cursor
         });
 
 
-        Button usrLogInRedirect = (Button) findViewById(R.id.org_sign_in_button);
+        Button usrLogInRedirect = (Button) findViewById(R.id.user_sign_in_button);
         usrLogInRedirect.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
