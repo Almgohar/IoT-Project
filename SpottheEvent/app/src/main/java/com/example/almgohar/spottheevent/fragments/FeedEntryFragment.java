@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.almgohar.spottheevent.R;
 import com.example.almgohar.spottheevent.activites.EventActivity;
@@ -44,9 +46,10 @@ public class FeedEntryFragment extends Fragment {
      * @return A new instance of fragment FeedEntryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FeedEntryFragment newInstance(String eventDescription, String eventName, String imageURL) {
+    public static FeedEntryFragment newInstance(String id, String eventDescription, String eventName, String imageURL) {
         FeedEntryFragment fragment = new FeedEntryFragment();
         Bundle args = new Bundle();
+        args.putString("id", id);
         args.putString("eventName", eventName);
         args.putString("eventDescription", eventDescription);
         args.putString("imageURL", imageURL);
@@ -58,6 +61,8 @@ public class FeedEntryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            Log.d("IN FRAG", getArguments().getString("eventName"));
+            id = getArguments().getString("id");
             imageURL = getArguments().getString("imageURL");
             eventDescription = getArguments().getString("eventDescription");
             eventName = getArguments().getString("eventName");
@@ -78,6 +83,10 @@ public class FeedEntryFragment extends Fragment {
                 startActivity(i);
             }
         });
+        TextView name = (TextView) thisView.findViewById(R.id.textView4);
+        TextView desc = (TextView) thisView.findViewById(R.id.textView3);
+        name.setText(eventName);
+        desc.setText(eventDescription);
         return thisView;
     }
 

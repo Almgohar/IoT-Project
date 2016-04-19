@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
     private RegionBootstrap regionBootstrap;
     private BackgroundPowerSaver backgroundPowerSaver;
     private boolean haveDetectedBeaconsSinceBoot = false;
+    MainActivity act;
     OkHttpClient client = new OkHttpClient();
 
     @Override
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
 
         Intent i = new Intent(this, BeaconService.class);
         startService(i);
-
+        act = this;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
             try {
                 Log.d("ONEJSON", events.getJSONObject(i).toString());
 
-                        entry = FeedEntryFragment.newInstance( events.getJSONObject(i).getString("name"),
+                        entry = FeedEntryFragment.newInstance(events.getJSONObject(i).getString("id"), events.getJSONObject(i).getString("name"),
                                 events.getJSONObject(i).getString("description"),  events.getJSONObject(i).getString("imageURL"));
                 } catch (JSONException e) {
                 e.printStackTrace();
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
                         try
                         {
                             Request request = new Request.Builder()
-                                    .url("http://private-2ef29-semanticiot.apiary-mock.com/notifications")
+                                    .url("http://bef42af0.ngrok.io/IoTBackend/rest/notifications")
                                     .build();
                             request.header("Content-Type:application/json");
                             Response response = null;
@@ -167,8 +168,13 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
                             }
                             if (response.isSuccessful()) {
                                 try {
-                                    JSONArray json = new JSONArray(response.body().string());
-                                    viewNotifications(json);
+                                    final JSONArray json = new JSONArray(response.body().string());
+                                    act.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            viewNotifications(json);
+                                        }
+                                    });
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 } catch (IOException e) {
@@ -206,11 +212,11 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
         for (int i = 0; i < notifications.length(); i++) {
             NotificationEntryFragment entry = null;
             try {
-                entry = NotificationEntryFragment.newInstance(notifications.getJSONObject(i).getString("body"));
+                entry = NotificationEntryFragment.newInstance(notifications.getJSONObject(i).getString("name"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            getSupportFragmentManager().beginTransaction()
+            act.getSupportFragmentManager().beginTransaction()
                     .add(R.id.entries_layout, entry).commit();
         }
 
