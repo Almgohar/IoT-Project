@@ -13,7 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="250dp"
         android:layout_height="150dp"
-        android:id="@+id/imageView"
+        android:id="@+id/event_icon"
         android:src="@drawable/ayb"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -24,11 +24,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Event name"
-        android:id="@+id/textView"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:textStyle="bold" />
+        android:id="@+id/event_name"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/event_icon"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_gravity="center_horizontal"
@@ -36,11 +38,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Organization"
-        android:id="@+id/textView1"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:textStyle="bold" />
+        android:id="@+id/event_organization"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="14dp"
+        android:layout_below="@+id/event_name"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_gravity="center_horizontal"
@@ -48,11 +52,14 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Location"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/textView1"
+        android:id="@+id/event_location"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textSize="14dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/event_organization" />
 
     <TextView
         android:layout_gravity="center_horizontal"
@@ -60,11 +67,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Expiration Date"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView2"
+        android:id="@+id/event_date"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:textStyle="bold" />
+        android:textSize="14dp" />
 
     <TextView
         android:layout_gravity="center_horizontal"
@@ -72,11 +81,22 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="URL"
-        android:id="@+id/textView4"
-        android:layout_below="@+id/textView3"
+        android:id="@+id/event_url"
+        android:layout_below="@+id/event_date"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:id="@+id/event_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/event_url"
+        android:layout_alignStart="@+id/event_icon"
+        android:layout_alignEnd="@+id/event_icon" />
 
 
 </RelativeLayout>

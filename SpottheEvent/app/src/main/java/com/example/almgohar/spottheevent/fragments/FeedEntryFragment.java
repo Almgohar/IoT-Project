@@ -22,6 +22,7 @@ import com.example.almgohar.spottheevent.activites.EventActivity;
  * create an instance of this fragment.
  */
 public class FeedEntryFragment extends Fragment {
+    private String id;
     private String eventName;
     private String eventDescription;
     private String imageURL;
@@ -73,6 +74,7 @@ public class FeedEntryFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), EventActivity.class);
+                i.putExtra("event_id", id);
                 startActivity(i);
             }
         });

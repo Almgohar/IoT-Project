@@ -8,6 +8,7 @@ import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import android.widget.ScrollView;
 import com.example.almgohar.spottheevent.R;
 import com.example.almgohar.spottheevent.fragments.FeedEntryFragment;
 import com.example.almgohar.spottheevent.fragments.NotificationEntryFragment;
+import com.example.almgohar.spottheevent.services.BeaconService;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -35,6 +37,8 @@ import org.altbeacon.beacon.powersave.BackgroundPowerSaver;
 import org.altbeacon.beacon.startup.BootstrapNotifier;
 import org.altbeacon.beacon.startup.RegionBootstrap;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -43,7 +47,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity implements  BeaconConsumer, FeedEntryFragment.OnFragmentInteractionListener, NotificationEntryFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements FeedEntryFragment.OnFragmentInteractionListener, NotificationEntryFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "BeaconReferenceApp";
     private BeaconManager beaconManager;
@@ -55,17 +59,18 @@ public class MainActivity extends AppCompatActivity implements  BeaconConsumer, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        beaconManager = BeaconManager.getInstanceForApplication(this);
-        beaconManager.getBeaconParsers().clear();
-        beaconManager.getBeaconParsers().add(new BeaconParser().
-                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
+//        beaconManager = BeaconManager.getInstanceForApplication(this);
+//        beaconManager.getBeaconParsers().clear();
+//        beaconManager.getBeaconParsers().add(new BeaconParser().
+//                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
 
+        Intent i = new Intent(this, BeaconService.class);
+        startService(i);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        viewEntries(10);
-        beaconManager.bind(this);
+     //   beaconManager.bind(this);
             Thread thread = new Thread(new Runnable()
             {
                 @Override
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements  BeaconConsumer, 
                 {
                     try
                     {
-                        Log.d("llalaal", fetchEvents("http://private-2ef29-semanticiot.apiary-mock.com/events"));
+                        fetchEvents("http://192.168.43.28:9090/IoTBackend/rest/events");
                     }
                     catch (Exception e)
                     {
@@ -89,78 +94,87 @@ public class MainActivity extends AppCompatActivity implements  BeaconConsumer, 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        beaconManager.unbind(this);
     }
 
-    String fetchEvents(String url) throws IOException {
+
+    void fetchEvents(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         request.header("Content-Type:application/json");
         Response response = client.newCall(request).execute();
-        return response.body().string();
-    }
-    @Override
-    public void onBeaconServiceConnect() {
-        try{
-            beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null,null));
-            //beaconManager.startRangingBeaconsInRegion(new Region());
-        }catch(RemoteException e){}
-
-        beaconManager.setRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() > 0) {
-                    Log.i("Distance ", beacons.iterator().next().getDistance() + " meters away.");
-                    Log.i("Major ", beacons.iterator().next().getId2() + " ");
-                    Log.i("Minor ", beacons.iterator().next().getId3() + " ");
-                    sendNotification();
-                }
+        if (response.isSuccessful()) {
+            try {
+                Log.d(TAG,response.body().string());
+                JSONArray json = new JSONArray(response.body().string());
+                viewEvents(json);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
-        beaconManager.setMonitorNotifier(new MonitorNotifier() {
-            @Override
-            public void didEnterRegion(Region region) {
-                Log.i(TAG, "I just saw an beacon for the first time!");
-            }
-
-            @Override
-            public void didExitRegion(Region region) {
-                Log.i(TAG, "I no longer see an beacon");
-            }
-
-            @Override
-            public void didDetermineStateForRegion(int state, Region region) {
-                Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
-            }
-        });
-
-
-        /*try {
-            beaconManager.startMonitoringBeaconsInRegion(new Region("myMonitoringUniqueId", null, null, null));
         }
-        catch (RemoteException e) {    }*/
     }
-    void logUUID () {
 
-    }
-    public void viewEntries(int length) {
+    public void viewEvents(JSONArray events) {
         LinearLayout entriesArea = ((LinearLayout) findViewById(R.id.entries_layout));
         final ScrollView scrollView = ((ScrollView) findViewById(R.id.entries_scroll));
         entriesArea.removeAllViews();
-        ((FloatingActionButton)findViewById(R.id.fab)).setImageDrawable(getDrawable(android.R.drawable.ic_popup_reminder));
-        for (int i = 0; i < length; i++) {
-            FeedEntryFragment entry = new FeedEntryFragment();
+        ((FloatingActionButton)findViewById(R.id.fab))
+                .setImageDrawable(getDrawable(android.R.drawable.ic_popup_reminder));
+        Log.d(TAG, events.toString());
+        for (int i = 0; i < events.length(); i++) {
+            FeedEntryFragment entry = null;
+            try {
+                entry = FeedEntryFragment.newInstance( events.getJSONObject(i).getString("name"),
+                        events.getJSONObject(i).getString("description"),  events.getJSONObject(i).getString("imageURL"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.entries_layout, entry).commit();
         }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                viewNotifications(10);
+                Thread thread = new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            Request request = new Request.Builder()
+                                    .url("http://private-2ef29-semanticiot.apiary-mock.com/notifications")
+                                    .build();
+                            request.header("Content-Type:application/json");
+                            Response response = null;
+                            try {
+                                response = client.newCall(request).execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONArray json = new JSONArray(response.body().string());
+                                    viewNotifications(json);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                thread.start();
+
             }
         });
 
@@ -174,16 +188,23 @@ public class MainActivity extends AppCompatActivity implements  BeaconConsumer, 
 
     }
 
-    public void viewNotifications(int length) {
+    public void viewNotifications(JSONArray notifications) {
         LinearLayout entriesArea = ((LinearLayout) findViewById(R.id.entries_layout));
         final ScrollView scrollView = ((ScrollView) findViewById(R.id.entries_scroll));
         entriesArea.removeAllViews();
         ((FloatingActionButton)findViewById(R.id.fab)).setImageDrawable(getDrawable(R.drawable.ic_home_white_48dp));
-        for (int i = 0; i < length; i++) {
-            NotificationEntryFragment notification = new NotificationEntryFragment();
+
+        for (int i = 0; i < notifications.length(); i++) {
+            NotificationEntryFragment entry = null;
+            try {
+                entry = NotificationEntryFragment.newInstance(notifications.getJSONObject(i).getString("body"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.entries_layout, notification).commit();
+                    .add(R.id.entries_layout, entry).commit();
         }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements  BeaconConsumer, 
             public void onClick(View view) {
 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
-                viewEntries(10);
+
             }
         });
         scrollView.postDelayed(new Runnable() {
