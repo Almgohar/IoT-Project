@@ -77,58 +77,117 @@ public class BeaconService extends Service implements BeaconConsumer {
 
 
         beaconManager.setRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                                           @Override
+                                           public void didRangeBeaconsInRegion(final Collection<Beacon> beacons, Region region) {
+                                               Thread thread = new Thread(new Runnable() {
+                                                   @Override
+                                                   public void run() {
+                                                       try {
+                                                           if (beacons.size() > 0) {
+                                                               String distance = beacons.iterator().next().getDistance() + " meters away.";
+                                                               final String major = beacons.iterator().next().getId2() + "";
+                                                               final String minor = beacons.iterator().next().getId3() + "";
+                                                               Log.d(TAG, major);
+                                                               Log.d(TAG, minor);
 
-                if (beacons.size() > 0) {
-                    String distance = beacons.iterator().next().getDistance() + " meters away.";
-                    final String major = beacons.iterator().next().getId2() + "";
-                    final String minor = beacons.iterator().next().getId3() + "";
-                    sendNotification();
-                    Log.d(TAG, major);
-                    Log.d(TAG, minor);
+
+                                                               Request request = new Request.Builder()
+                                                                       .url("http://private-2ef29-semanticiot.apiary-mock.com/events/search/" + major + "/" + minor)
+                                                                       .build();
+                                                               request.header("Content-Type:application/json");
+                                                               Response response = null;
+                                                               try {
+                                                                   response = client.newCall(request).execute();
+                                                               } catch (IOException e) {
+                                                                   e.printStackTrace();
+                                                               }
+                                                               if (response.isSuccessful()) {
+                                                                   try {
+                                                                       JSONObject json = new JSONObject(response.body().string());
+                                                                       sendNotification(json);
+                                                                   } catch (JSONException e) {
+                                                                       e.printStackTrace();
+                                                                   } catch (IOException e) {
+                                                                       e.printStackTrace();
+                                                                   }
+                                                               }
+                                                           }
+
+                                                       } catch (Exception e) {
+                                                           e.printStackTrace();
+                                                       }
+                                                   }
+
+                                               });
+                                               thread.start();
 
 
-                }
-            }
-        });
-        beaconManager.setMonitorNotifier(new MonitorNotifier() {
-            @Override
-            public void didEnterRegion(Region region) {
-                Log.i(TAG, "I just saw an beacon for the first time!");
-            }
+                                           }
+                                       }
 
-            @Override
-            public void didExitRegion(Region region) {
-                Log.i(TAG, "I no longer see an beacon");
-            }
+        );
+        beaconManager.setMonitorNotifier(new
 
-            @Override
-            public void didDetermineStateForRegion(int state, Region region) {
-                Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
-            }
-        });
+                                                 MonitorNotifier() {
+                                                     @Override
+                                                     public void didEnterRegion(Region region) {
+                                                         Log.i(TAG, "I just saw an beacon for the first time!");
+                                                     }
+
+                                                     @Override
+                                                     public void didExitRegion(Region region) {
+                                                         Log.i(TAG, "I no longer see an beacon");
+                                                     }
+
+                                                     @Override
+                                                     public void didDetermineStateForRegion(int state, Region region) {
+                                                         Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
+                                                     }
+                                                 }
+
+        );
     }
 
-    private void sendNotification() {
-        Log.d(TAG, "sending notification");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setContentTitle("AAAA").setContentText("You just passed the booth of the event " + "AYB").setSmallIcon(R.drawable.ayb);
+    private void sendNotification(JSONObject json) {
+        try {
+            String name = json.getString("name");
+            String org = json.getString("organization");
+            String icon = json.getString("imageURL");
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        Intent i = new Intent(this, EventActivity.class);
-        //        i.putExtra("event_id", id);
-        stackBuilder.addNextIntent(i);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        builder.setContentIntent(resultPendingIntent);
-        NotificationManager notificationManager =
-                (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        builder.build();
-        notificationManager.notify(1, builder.build());
+            JSONObject notification  = new JSONObject();
+            notification.put("body", "You just passed nearby the event " + name + "by" + org);
+
+            RequestBody body = RequestBody.create(JSON, notification.toString());
+            Request request = new Request.Builder()
+                    .url("http://private-2ef29-semanticiot.apiary-mock.com/notifications/create")
+                    .post(body)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            Log.d(TAG, "sending notification");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                    .setContentTitle(name).setContentText("You just passed nearby the event " + name + "by " + org).setSmallIcon(R.drawable.ayb);
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            Intent i = new Intent(this, EventActivity.class);
+            //        i.putExtra("event_id", id);
+            stackBuilder.addNextIntent(i);
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            builder.setContentIntent(resultPendingIntent);
+            NotificationManager notificationManager =
+                    (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            builder.build();
+            notificationManager.notify(1, builder.build());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
