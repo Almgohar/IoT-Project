@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
                 {
                     try
                     {
-                        fetchEvents("http://192.168.43.28:9090/IoTBackend/rest/events");
+                        fetchEvents("http://bef42af0.ngrok.io/IoTBackend/rest/events");
                     }
                     catch (Exception e)
                     {
@@ -105,28 +105,37 @@ public class MainActivity extends AppCompatActivity implements FeedEntryFragment
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {
             try {
-                Log.d(TAG,response.body().string());
-                JSONArray json = new JSONArray(response.body().string());
-                viewEvents(json);
-            } catch (JSONException e) {
+                String jsonArr = response.body().string();
+                Log.d(TAG,jsonArr);
+                final JSONArray json = new JSONArray(jsonArr);
+                Log.d("JSON", json.getJSONObject(0).toString());
+                this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        viewEvents(json);
+                    }
+                });
+
+                }catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void viewEvents(JSONArray events) {
+    public void viewEvents(final JSONArray events) {
         LinearLayout entriesArea = ((LinearLayout) findViewById(R.id.entries_layout));
         final ScrollView scrollView = ((ScrollView) findViewById(R.id.entries_scroll));
         entriesArea.removeAllViews();
         ((FloatingActionButton)findViewById(R.id.fab))
                 .setImageDrawable(getDrawable(android.R.drawable.ic_popup_reminder));
-        Log.d(TAG, events.toString());
         for (int i = 0; i < events.length(); i++) {
             FeedEntryFragment entry = null;
             try {
-                entry = FeedEntryFragment.newInstance( events.getJSONObject(i).getString("name"),
-                        events.getJSONObject(i).getString("description"),  events.getJSONObject(i).getString("imageURL"));
-            } catch (JSONException e) {
+                Log.d("ONEJSON", events.getJSONObject(i).toString());
+
+                        entry = FeedEntryFragment.newInstance( events.getJSONObject(i).getString("name"),
+                                events.getJSONObject(i).getString("description"),  events.getJSONObject(i).getString("imageURL"));
+                } catch (JSONException e) {
                 e.printStackTrace();
             }
             getSupportFragmentManager().beginTransaction()
