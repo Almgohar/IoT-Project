@@ -1,0 +1,165 @@
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: iotproject
+-- ------------------------------------------------------
+-- Server version	5.5.49-0ubuntu0.14.04.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `EVENT`
+--
+
+DROP TABLE IF EXISTS `EVENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EVENT` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `organization` bigint(20) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `location` varchar(45) DEFAULT NULL,
+  `creationDate` date DEFAULT NULL,
+  `expirationDate` date DEFAULT NULL,
+  `hasBooth` tinyint(1) NOT NULL,
+  `imgURL` varchar(100) DEFAULT NULL,
+  `major` char(50) DEFAULT NULL,
+  `minor` char(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EVENT`
+--
+
+LOCK TABLES `EVENT` WRITE;
+/*!40000 ALTER TABLE `EVENT` DISABLE KEYS */;
+INSERT INTO `EVENT` VALUES (1,2,'aiesec recruitment','some description goes here','club area brdo','3910-01-11','3910-01-11',1,'some image url goes here','2','4'),(2,2,'Bn7abk ya Dr','some description goes here','club area brdo','3910-01-11','3910-01-11',0,'some image url goes here','65504','65505'),(3,2,'aiesec recruitment','some description goes here','club area brdo','3910-01-11','3910-01-11',0,'some image url goes here','23','14'),(6,3,'ayb recruitment','some description goes here1','club area brdo','3910-01-11','3910-01-11',1,'','5','1'),(7,3,'ayb recruitment','some description goes here1','club area brdo','3910-01-11','3910-01-11',1,'','15','10'),(8,3,'ayb recruitment','some description goes here1','club area brdo','3910-01-11','3910-01-11',1,'','13','7'),(9,3,'ayb recruitment','some description goes here1','club area brdo','3910-01-11','3910-01-11',1,'hahaha','29','1'),(10,3,'ayb recruitment','some description goes here1','club area brdo','3910-01-11','3910-01-11',1,'hereistheimgurl',NULL,NULL),(11,2,'AYB is recruiting','Event description goes here','pronto','2016-10-11','2016-11-10',0,'not-defined',NULL,NULL),(12,2,'AYB is recruiting','Event description goes here','pronto','2016-10-11','2016-11-10',1,'not-defined',NULL,NULL),(13,2,'AYB is recruiting','Event description goes here','pronto','2016-10-11','2016-11-10',1,'not-defined',NULL,NULL),(14,2,'AYB is recruiting','Event description goes here','pronto','2016-10-11','2016-11-10',1,'some url goes here',NULL,NULL);
+/*!40000 ALTER TABLE `EVENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `NOTIFICATION`
+--
+
+DROP TABLE IF EXISTS `NOTIFICATION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `NOTIFICATION` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `body` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `NOTIFICATION`
+--
+
+LOCK TABLES `NOTIFICATION` WRITE;
+/*!40000 ALTER TABLE `NOTIFICATION` DISABLE KEYS */;
+INSERT INTO `NOTIFICATION` VALUES (1,'hello world tell me'),(2,'hey hey hey'),(3,'yalla beina'),(4,'You just passed nearby the event aiesec recruitmentby2'),(5,'You just passed nearby the event aiesec recruitmentby2'),(6,'You just passed nearby the event aiesec recruitmentby2'),(7,'You just passed nearby the event aiesec recruitmentby2'),(8,'You just passed nearby the event aiesec recruitmentby2'),(9,'You just passed nearby the event aiesec recruitmentby2'),(10,'You just passed nearby the event aiesec recruitmentby2'),(11,'You just passed nearby the event aiesec recruitmentby2'),(12,'You just passed nearby the event aiesec recruitmentby2'),(13,'You just passed nearby the event aiesec recruitmentby2'),(14,'You just passed nearby the event aiesec recruitmentby2'),(15,'You just passed nearby the event aiesec recruitmentby2'),(16,'You just passed nearby the event aiesec recruitmentby2'),(17,'You just passed nearby the event aiesec recruitmentby2'),(18,'You just passed nearby the event aiesec recruitmentby2'),(19,'You just passed nearby the event aiesec recruitmentby2'),(20,'You just passed nearby the event aiesec recruitmentby2'),(21,'You just passed nearby the event aiesec recruitmentby2'),(22,'You just passed nearby the event aiesec recruitmentby2'),(23,'You just passed nearby the event aiesec recruitmentby2'),(24,'You just passed nearby the event aiesec recruitmentby2'),(25,'You just passed nearby the event aiesec recruitmentby2'),(26,'You just passed nearby the event aiesec recruitmentby2'),(27,'You just passed nearby the event aiesec recruitmentby2'),(28,'You just passed nearby the event aiesec recruitmentby2'),(29,'You just passed nearby the event aiesec recruitmentby2'),(30,'You just passed nearby the event aiesec recruitmentby2'),(31,'You just passed nearby the event aiesec recruitmentby2'),(32,'You just passed nearby the event aiesec recruitmentby2'),(33,'You just passed nearby the event aiesec recruitmentby2'),(34,'You just passed nearby the event aiesec recruitmentby2'),(35,'You just passed nearby the event aiesec recruitmentby2'),(36,'You just passed nearby the event aiesec recruitmentby2'),(37,'You just passed nearby the event aiesec recruitmentby2'),(38,'You just passed nearby the event aiesec recruitmentby2'),(39,'You just passed nearby the event aiesec recruitmentby2'),(40,'You just passed nearby the event aiesec recruitmentby2'),(41,'You just passed nearby the event aiesec recruitmentby2'),(42,'You just passed nearby the event aiesec recruitmentby2'),(43,'You just passed nearby the event aiesec recruitmentby2'),(44,'You just passed nearby the event aiesec recruitmentby2'),(45,'You just passed nearby the event aiesec recruitmentby2'),(46,'You just passed nearby the event aiesec recruitmentby2'),(47,'You just passed nearby the event aiesec recruitmentby2'),(48,'You just passed nearby the event aiesec recruitmentby2'),(49,'You just passed nearby the event aiesec recruitmentby2'),(50,'You just passed nearby the event aiesec recruitmentby2'),(51,'You just passed nearby the event aiesec recruitmentby2'),(52,'You just passed nearby the event aiesec recruitmentby2'),(53,'You just passed nearby the event aiesec recruitmentby2'),(54,'You just passed nearby the event aiesec recruitmentby2'),(55,'You just passed nearby the event aiesec recruitmentby2'),(56,'You just passed nearby the event aiesec recruitmentby2'),(57,'You just passed nearby the event aiesec recruitmentby2'),(58,'You just passed nearby the event aiesec recruitmentby2'),(59,'You just passed nearby the event aiesec recruitmentby2'),(60,'You just passed nearby the event aiesec recruitmentby2'),(61,'You just passed nearby the event aiesec recruitmentby2'),(62,'You just passed nearby the event aiesec recruitmentby2'),(63,'You just passed nearby the event aiesec recruitmentby2'),(64,'You just passed nearby the event aiesec recruitmentby2'),(65,'You just passed nearby the event aiesec recruitmentby2'),(66,'You just passed nearby the event aiesec recruitmentby2'),(67,'You just passed nearby the event aiesec recruitmentby2'),(68,'You just passed nearby the event aiesec recruitmentby2'),(69,'You just passed nearby the event aiesec recruitmentby2'),(70,'You just passed nearby the event aiesec recruitmentby2'),(71,'You just passed nearby the event aiesec recruitmentby2'),(72,'You just passed nearby the event aiesec recruitmentby2'),(73,'You just passed nearby the event aiesec recruitmentby2'),(74,'You just passed nearby the event aiesec recruitmentby2'),(75,'You just passed nearby the event aiesec recruitmentby2'),(76,'You just passed nearby the event aiesec recruitmentby2'),(77,'You just passed nearby the event aiesec recruitmentby2'),(78,'You just passed nearby the event aiesec recruitmentby2'),(79,'You just passed nearby the event aiesec recruitmentby2'),(80,'You just passed nearby the event aiesec recruitmentby2'),(81,'You just passed nearby the event aiesec recruitmentby2'),(82,'You just passed nearby the event aiesec recruitmentby2'),(83,'You just passed nearby the event aiesec recruitmentby2'),(84,'You just passed nearby the event aiesec recruitmentby2'),(85,'You just passed nearby the event aiesec recruitmentby2'),(86,'You just passed nearby the event aiesec recruitmentby2'),(87,'You just passed nearby the event aiesec recruitmentby2'),(88,'You just passed nearby the event aiesec recruitmentby2'),(89,'You just passed nearby the event aiesec recruitmentby2'),(90,'You just passed nearby the event aiesec recruitmentby2'),(91,'You just passed nearby the event aiesec recruitmentby2'),(92,'You just passed nearby the event aiesec recruitmentby2'),(93,'You just passed nearby the event aiesec recruitmentby2'),(94,'You just passed nearby the event aiesec recruitmentby2'),(95,'You just passed nearby the event aiesec recruitmentby2'),(96,'You just passed nearby the event aiesec recruitmentby2'),(97,'You just passed nearby the event aiesec recruitmentby2'),(98,'You just passed nearby the event aiesec recruitmentby2'),(99,'You just passed nearby the event aiesec recruitmentby2'),(100,'You just passed nearby the event aiesec recruitmentby2'),(101,'You just passed nearby the event aiesec recruitmentby2'),(102,'You just passed nearby the event aiesec recruitmentby2'),(103,'You just passed nearby the event aiesec recruitmentby2'),(104,'You just passed nearby the event aiesec recruitmentby2'),(105,'You just passed nearby the event aiesec recruitmentby2'),(106,'You just passed nearby the event aiesec recruitmentby2'),(107,'You just passed nearby the event aiesec recruitmentby2'),(108,'You just passed nearby the event aiesec recruitmentby2'),(109,'You just passed nearby the event aiesec recruitmentby2'),(110,'You just passed nearby the event aiesec recruitmentby2'),(111,'You just passed nearby the event aiesec recruitmentby2'),(112,'You just passed nearby the event aiesec recruitmentby2'),(113,'You just passed nearby the event aiesec recruitmentby2'),(114,'You just passed nearby the event aiesec recruitmentby2'),(115,'You just passed nearby the event aiesec recruitmentby2'),(116,'You just passed nearby the event aiesec recruitmentby2'),(117,'You just passed nearby the event aiesec recruitmentby2'),(118,'You just passed nearby the event aiesec recruitmentby2'),(119,'You just passed nearby the event Bn7abk ya Drby2'),(120,'You just passed nearby the event aiesec recruitmentby2'),(121,'You just passed nearby the event aiesec recruitmentby2'),(122,'You just passed nearby the event Bn7abk ya Drby2'),(123,'You just passed nearby the event aiesec recruitmentby2'),(124,'You just passed nearby the event aiesec recruitmentby2'),(125,'You just passed nearby the event aiesec recruitmentby2'),(126,'You just passed nearby the event aiesec recruitmentby2'),(127,'You just passed nearby the event aiesec recruitmentby2'),(128,'You just passed nearby the event aiesec recruitmentby2'),(129,'You just passed nearby the event aiesec recruitmentby2'),(130,'You just passed nearby the event aiesec recruitmentby2'),(131,'You just passed nearby the event aiesec recruitmentby2'),(132,'You just passed nearby the event Bn7abk ya Drby2'),(133,'You just passed nearby the event aiesec recruitmentby2'),(134,'You just passed nearby the event Bn7abk ya Drby2'),(135,'You just passed nearby the event aiesec recruitmentby2'),(136,'You just passed nearby the event Bn7abk ya Drby2'),(137,'You just passed nearby the event Bn7abk ya Drby2'),(138,'You just passed nearby the event Bn7abk ya Drby2'),(139,'You just passed nearby the event aiesec recruitmentby2'),(140,'You just passed nearby the event Bn7abk ya Drby2'),(141,'You just passed nearby the event Bn7abk ya Drby2'),(142,'You just passed nearby the event Bn7abk ya Drby2'),(143,'You just passed nearby the event Bn7abk ya Drby2'),(144,'You just passed nearby the event Bn7abk ya Drby2'),(145,'You just passed nearby the event Bn7abk ya Drby2'),(146,'You just passed nearby the event aiesec recruitmentby2');
+/*!40000 ALTER TABLE `NOTIFICATION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ORGANIZTION`
+--
+
+DROP TABLE IF EXISTS `ORGANIZTION`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ORGANIZTION` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `imgURL` varchar(45) DEFAULT NULL,
+  `description` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ORGANIZTION`
+--
+
+LOCK TABLES `ORGANIZTION` WRITE;
+/*!40000 ALTER TABLE `ORGANIZTION` DISABLE KEYS */;
+INSERT INTO `ORGANIZTION` VALUES (1,'AYB','ayb@guc.com','123','someimgurlgoeshere','asdhakhdkasf'),(2,'bedaya','asda@sad.com','asdad','sadasdas','asdadas'),(3,'ayb','ayb@gmail.com','elPassword',NULL,NULL);
+/*!40000 ALTER TABLE `ORGANIZTION` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ORGANIZTION_EVENT`
+--
+
+DROP TABLE IF EXISTS `ORGANIZTION_EVENT`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ORGANIZTION_EVENT` (
+  `id` bigint(20) NOT NULL,
+  `organization_id` bigint(20) NOT NULL,
+  `event_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ORGANIZTION_EVENT`
+--
+
+LOCK TABLES `ORGANIZTION_EVENT` WRITE;
+/*!40000 ALTER TABLE `ORGANIZTION_EVENT` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ORGANIZTION_EVENT` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER`
+--
+
+DROP TABLE IF EXISTS `USER`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) DEFAULT NULL,
+  `password` varchar(45) DEFAULT NULL,
+  `major` varchar(45) DEFAULT NULL,
+  `gradYear` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER`
+--
+
+LOCK TABLES `USER` WRITE;
+/*!40000 ALTER TABLE `USER` DISABLE KEYS */;
+INSERT INTO `USER` VALUES (1,'eslamunto','123456','met','2016'),(2,'eslamigo','123456','MET',NULL),(3,'eslamigo','123456','MET','2015');
+/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2016-05-07 20:56:38
