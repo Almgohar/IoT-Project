@@ -92,7 +92,7 @@ public class BeaconService extends Service implements BeaconConsumer {
 
 
                                                                Request request = new Request.Builder()
-                                                                       .url("http://private-2ef29-semanticiot.apiary-mock.com/events/search/" + major + "/" + minor)
+                                                                       .url("http://bef42af0.ngrok.io/IoTBackend/rest/events/search/" + major + "/" + minor)
                                                                        .build();
                                                                request.header("Content-Type:application/json");
                                                                Response response = null;
@@ -103,7 +103,8 @@ public class BeaconService extends Service implements BeaconConsumer {
                                                                }
                                                                if (response.isSuccessful()) {
                                                                    try {
-                                                                       JSONObject json = new JSONObject(response.body().string());
+                                                                       JSONArray json = new JSONArray(response.body().string());
+
                                                                        sendNotification(json);
                                                                    } catch (JSONException e) {
                                                                        e.printStackTrace();
@@ -148,18 +149,19 @@ public class BeaconService extends Service implements BeaconConsumer {
         );
     }
 
-    private void sendNotification(JSONObject json) {
+    private void sendNotification(JSONArray json) {
         try {
-            String name = json.getString("name");
-            String org = json.getString("organization");
-            String icon = json.getString("imageURL");
+
+            String name = json.getJSONObject(0).getString("name");
+            String org = json.getJSONObject(0).getString("organization");
+            String icon = json.getJSONObject(0).getString("imageURL");
 
             JSONObject notification  = new JSONObject();
             notification.put("body", "You just passed nearby the event " + name + "by" + org);
 
             RequestBody body = RequestBody.create(JSON, notification.toString());
             Request request = new Request.Builder()
-                    .url("http://private-2ef29-semanticiot.apiary-mock.com/notifications/create")
+                    .url("http://bef42af0.ngrok.io/IoTBackend/rest/notifications")
                     .post(body)
                     .build();
 
