@@ -18,9 +18,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -111,6 +115,41 @@ public class NotificationsResource {
         }
     
  
+    }
+    
+    @POST
+    @Consumes("application/json")
+    public Response createNotification(JsonObject jsonEvent) throws Exception {
+        Notification notification = new Notification();
+        String notificationBody = jsonEvent.getString("body");
+        notification.setBody(notificationBody);
+        try {
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // Setup the connection with the DB
+            // TODO: put the username and password in a seperate file ignored on git
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://localhost/iotproject?"
+                            + "user=root&password=toor");
+            // Statements allow to issue SQL queries to the database
+            statement = connect.createStatement();
+            
+            // PreparedStatements can use variables and are more efficient
+            preparedStatement = connect
+                    .prepareStatement("insert into  iotproject.NOTIFICATION(body) values (?)");
+            // "myuser, webpage, datum, summary, COMMENTS from feedback.comments");
+            // Parameters start with 1
+            preparedStatement.setString(1, notificationBody.toString());
+            
+            preparedStatement.executeUpdate();
+
+            return Response.status(201).build();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
     }
     
     /**

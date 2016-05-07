@@ -113,6 +113,17 @@ public class EventsResource {
                 } else {
                     tmp.setImgURL("empty");
                 }
+                if(resultSet.getString("major") != null) {
+                    tmp.setMajor(resultSet.getString("major"));
+                }
+                else {
+                    tmp.setMajor("empty");
+                }
+                if(resultSet.getString("minor") != null) {
+                    tmp.setMinor(resultSet.getString("minor"));
+                } else {
+                    tmp.setMinor("empty");
+                }
                 events.add(tmp);
             }
 
@@ -128,6 +139,9 @@ public class EventsResource {
                         .add("expirationDate", event.getExpirationDate().toString())
                         .add("hasBooth", event.getHasBooth())
                         .add("imageURL", event.getImgURL())
+                        .add("major", event.getMajor())
+                        .add("minor", event.getMinor())
+                        
                 );
             }
 
@@ -204,6 +218,17 @@ public class EventsResource {
                 } else {
                     tmp.setImgURL("empty");
                 }
+                if(resultSet.getString("major") != null) {
+                    tmp.setMajor(resultSet.getString("major"));
+                }
+                else {
+                    tmp.setMajor("empty");
+                }
+                if(resultSet.getString("minor") != null) {
+                    tmp.setMinor(resultSet.getString("minor"));
+                } else {
+                    tmp.setMinor("empty");
+                }
                 events.add(tmp);
             }
 
@@ -219,6 +244,8 @@ public class EventsResource {
                         .add("expirationDate", event.getExpirationDate().toString())
                         .add("hasBooth", event.getHasBooth())
                         .add("imageURL", event.getImgURL())
+                        .add("major", event.getMajor())
+                        .add("minor", event.getMinor())
                 );
             }
 
@@ -355,7 +382,105 @@ public class EventsResource {
         }
         //return a 201 response
     }
+    
+    @GET
+    @Path("/search/{major}/{minor}")
+    @Produces("application/json")
+    public JsonArray getMajorMinor(final @PathParam("major") String major, final @PathParam("minor") String minor) throws Exception {
+        try {
+            // This will load the MySQL driver, each DB has its own driver
+            Class.forName("com.mysql.jdbc.Driver");
+            // Setup the connection with the DB
+            // TODO: put the username and password in a seperate file ignored on git
+            connect = DriverManager
+                    .getConnection("jdbc:mysql://localhost/iotproject?"
+                            + "user=root&password=toor");
+            // Statements allow to issue SQL queries to the database
+            statement = connect.createStatement();
+            String select_query = "SELECt * FROM  iotproject.EVENT WHERE major=" + major +" AND minor=" + minor+";";
+            // Result set get the result of the SQL query
+            resultSet = statement
+                    .executeQuery(select_query);
 
+            events = new ArrayList<Event>();
+
+            while (resultSet.next()) {
+                Event tmp = new Event();
+                tmp.setId(resultSet.getLong("id"));
+                if (resultSet.getString("name") != null) {
+                    tmp.setName(resultSet.getString("name"));
+                } else {
+                    tmp.setName("null");
+                }
+                if (resultSet.getString("organization") != null) {
+                    tmp.setOrganization(resultSet.getLong("organization"));
+                }
+
+                if (resultSet.getString("description") != null) {
+                    tmp.setDescription(resultSet.getString("description"));
+                } else {
+                    tmp.setDescription("null");
+                }
+                if (resultSet.getString("location") != null) {
+                    tmp.setLocation(resultSet.getString("location"));
+                } else {
+                    tmp.setLocation("null");
+                }
+                if (resultSet.getDate("creationDate") != null) {
+                    tmp.setCreationDate(resultSet.getDate("creationDate"));
+                }
+                if (resultSet.getDate("expirationDate") != null) {
+                    tmp.setExpirationDate(resultSet.getDate("expirationDate"));
+                }
+                if (resultSet.getString("hasBooth") != null) {
+                    tmp.setHasBooth(resultSet.getBoolean("hasBooth"));
+                } else {
+                    tmp.setHasBooth(Boolean.FALSE);
+                }
+                if (resultSet.getString("imgURL") != null) {
+                    tmp.setImgURL(resultSet.getString("imgURL"));
+                } else {
+                    tmp.setImgURL("empty");
+                }
+                if(resultSet.getString("major") != null) {
+                    tmp.setMajor(resultSet.getString("major"));
+                }
+                else {
+                    tmp.setMajor("empty");
+                }
+                if(resultSet.getString("minor") != null) {
+                    tmp.setMinor(resultSet.getString("minor"));
+                } else {
+                    tmp.setMinor("empty");
+                }
+                events.add(tmp);
+            }
+
+            JsonArrayBuilder jab = Json.createArrayBuilder();
+            for (Event event : events) {
+                jab.add(Json.createObjectBuilder()
+                        .add("id", event.getId())
+                        .add("organization", event.getOrganization())
+                        .add("name", event.getName())
+                        .add("description", event.getDescription())
+                        .add("location", event.getLocation())
+                        .add("creationDate", event.getCreationDate().toString())
+                        .add("expirationDate", event.getExpirationDate().toString())
+                        .add("hasBooth", event.getHasBooth())
+                        .add("imageURL", event.getImgURL())
+                        .add("major", event.getMajor())
+                        .add("minor", event.getMinor())
+                );
+            }
+
+            return jab.build();
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
+    }
     /**
      * helper method to close all DB connections
      */

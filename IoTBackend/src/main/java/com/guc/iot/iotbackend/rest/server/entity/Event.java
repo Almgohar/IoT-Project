@@ -33,6 +33,8 @@ public class Event implements Serializable {
     private Date expirationDate;
     private Boolean hasBooth;
     private String imgURL;
+    private String major;
+    private String minor;
     
     public Event() {
     }
@@ -49,6 +51,23 @@ public class Event implements Serializable {
 //        this.hasBooth = hasBooth;
 //        this.imgURL = imgURL;
 //    }
+    
+    
+    public String getMinor() {
+        return this.minor;
+    }
+    
+    public void setMinor(String minor) {
+        this.minor = minor;
+    }
+    
+    public String getMajor(){
+        return this.major;
+    }
+    
+    public void setMajor(String major) {
+        this.major = major;
+    }
     
     public Long getOrganization() {
         return organization;
